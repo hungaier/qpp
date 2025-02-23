@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.2)
+cmake_minimum_required (VERSION 3.18)
 
 project(qpp CXX C)
 set (QPP_VERSION_MAJOR 0)
@@ -174,14 +174,20 @@ if(BUILD_DOCS)
             COMMAND ${CMAKE_COMMAND}
             -E echo "Done."
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+        install(DIRECTORY ${PROJECT_SOURCE_DIR}/docs/render DESTINATION "doc/render")
     endif(DOXYGEN_FOUND)
 else()
     message("-- HTML Documentation is disabled")
 endif()
 
-
 if(BUILD_TOOLS)
     message("-- building tools enabled")
 endif(BUILD_TOOLS)
 
+
+
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/tools)
+
+
+

@@ -174,7 +174,7 @@ struct bonding_table_t {
       throw std::runtime_error("invalid geom");
     if (atype1 >= geom->n_types() || atype2 >= geom->n_types())
       return;
-    sym_key<AINT> sk{atype1, atype2};
+    sym_key<AINT> sk{static_cast<AINT>(atype1), static_cast<AINT>(atype2)};
     auto dist_iter = m_dist.find(sk);
     if (dist_iter != end(m_dist) && !overwrite_existing) //record exists - do nothing
       return;

@@ -6,7 +6,9 @@ set(M_SRC
     symm/index.cpp
     io/strfun.cpp)
 
-add_library(qpp ${M_SRC})
+set(QPP_LIB_NAME qpp)
+
+add_library(${QPP_LIB_NAME} ${M_SRC})
 
 set(QPP_DEPS)
 if(NOT USE_SYSTEM_EIGEN3)
@@ -19,7 +21,7 @@ if(NOT MSVC)
   set(QPP_LINK_LIB m)
 endif()
 
-target_link_libraries(qpp ${QPP_LINK_LIB})
+target_link_libraries(${QPP_LIB_NAME} ${QPP_LINK_LIB})
 
 #set(IOPY io/io.py.cpp io/geomio.py.cpp io/gmsio.py.cpp)
 
@@ -53,4 +55,13 @@ if(PYTHON_BINDINGS)
     set_target_properties(pyqpp PROPERTIES COMPILE_FLAGS "-DPY_EXPORT")
     set_target_properties(pyqpp PROPERTIES POSITION_INDEPENDENT_CODE TRUE)
     set_target_properties(pyqpp PROPERTIES PREFIX "")
+
+    add_custom_command(
+        TARGET pyqpp POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pyqpp> ${DEPLOY_DIR}/
+    )
+
+    # install(TARGETS pyqpp RUNTIME DESTINATION bin)
 endif()
+
+install(TARGETS ${QPP_LIB_NAME} RUNTIME DESTINATION bin)
